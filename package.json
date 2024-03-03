@@ -1,0 +1,15 @@
+{
+    "name": "quados-tools",
+    "version": "1.0.0",
+    "description": "QuadOS tools",
+    "author": "Henry-Hiles",
+    "license": "GPL-3.0-only",
+    "devDependencies": {
+        "@types/node": "^20.11.24",
+        "nodemon": "^3.1.0",
+        "ts-node": "^10.9.2"
+    },
+    "dependencies": {
+        "dataclass": "^2.1.1"
+    }
+}

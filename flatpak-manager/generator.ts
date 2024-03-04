@@ -4,6 +4,21 @@ import { promisify } from "util"
 import { writeFile } from "fs/promises"
 const execAsync = promisify(exec)
 
+function formatString(inputString: string): string {
+    let regexedString = inputString.replace(/[\s-]/g, "")
+    let chars = regexedString.split("")
+
+    chars[0] = chars[0].toLowerCase()
+
+    for (let i = 1; i < chars.length; i++) {
+        if (chars[i - 1] === " " || chars[i - 1] === "-") {
+            chars[i] = chars[i].toUpperCase()
+        }
+    }
+
+    return chars.join("")
+}
+
 const { stdout, stderr } = await execAsync(
     "flatpak remote-ls --columns=name,application"
 )
@@ -13,16 +28,13 @@ if (stderr) {
     exit(1)
 }
 
-// Process the output
 const output = stdout
     .split("\n")
     .filter((line) => line.length > 0)
     .reduce((result, line) => {
         const [key, value] = line.split("\t")
-        const normalizedKey = key
-            .replace(/ /g, "")
-            .toLowerCase()
-            .replace(/_./g, (match) => match.charAt(1).toUpperCase())
+        let normalizedKey = formatString(key)
+
         result[normalizedKey] = value
         return result
     }, {})

@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ls test
-        run: "ls /home/runner/work/quados-tools"
+        run: "ls /home/runner/work/quados-tools/quados-tools"
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.2
       - name: Setup pnpm

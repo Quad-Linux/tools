@@ -5,6 +5,7 @@
     "author": "Henry-Hiles",
     "license": "GPL-3.0-only",
     "type": "module",
+    "packageManager": "pnpm@8.14.0",
     "scripts": {
         "rebuild": "",
         "generate": "node --loader ts-node/esm flatpak-manager/generator.ts"

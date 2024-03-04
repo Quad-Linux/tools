@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --loader ts-node/esm
+#!/usr/bin/env -S pnpm tsx
 import { exec } from "child_process"
 import { exit } from "process"
 import { promisify } from "util"
@@ -41,6 +41,6 @@ const output = stdout
     }, {})
 
 await writeFile(
-    "flatpak-manager/packages.ts",
+    "packages.ts",
     `export default ${JSON.stringify(output, null, 2)}`
 )

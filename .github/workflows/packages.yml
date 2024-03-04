@@ -1,0 +1,19 @@
+name: Update packages
+on:
+  schedule:
+  - cron: '*/5 * * * *'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3.0.0
+        with:
+          run_install: true
+      - name: Generate package list
+        run: "pnpm generate"
+      - uses: EndBug/add-and-commit@v9

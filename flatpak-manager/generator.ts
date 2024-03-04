@@ -1,3 +1,4 @@
+#!/usr/bin/env -S node --loader ts-node/esm
 import { exec } from "child_process"
 import { exit } from "process"
 import { promisify } from "util"

@@ -6,14 +6,13 @@
     "license": "GPL-3.0-only",
     "type": "module",
     "packageManager": "pnpm@8.14.0",
-    "scripts": {
-        "rebuild": "",
-        "generate": "node --loader ts-node/esm flatpak-manager/generator.ts"
+    "bin": {
+        "updatePackageList": "flatpak-manager/generator.ts"
     },
     "devDependencies": {
         "@types/node": "^20.11.24",
-        "nodemon": "^3.1.0",
-        "ts-node": "^10.9.2"
+        "ts-node": "^10.9.2",
+        "nodemon": "^3.1.0"
     },
     "dependencies": {
         "dataclass": "^2.1.1"

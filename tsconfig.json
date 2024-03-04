@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "module": "NodeNext",
+        "target": "ESNext",
+        "allowImportingTsExtensions": true,
+        "noEmit": true,
+        "moduleResolution": "NodeNext",
+        "esModuleInterop": true,
+        "resolveJsonModule": true
+    },
+    "ts-node": {
+        "esm": true
+    }
+}

@@ -4,6 +4,11 @@
     "description": "QuadOS tools",
     "author": "Henry-Hiles",
     "license": "GPL-3.0-only",
+    "type": "module",
+    "scripts": {
+        "rebuild": "",
+        "generate": "node --loader ts-node/esm flatpak-manager/generator.ts"
+    },
     "devDependencies": {
         "@types/node": "^20.11.24",
         "nodemon": "^3.1.0",

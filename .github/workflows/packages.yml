@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Move to dir
+        run: "cd flatpak-manager"
       - name: Setup Node.js environment
         uses: actions/setup-node@v4.0.2
       - name: Setup pnpm

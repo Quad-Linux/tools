@@ -1,9 +1,7 @@
 #!/usr/bin/env -S pnpm tsx
-import { exec } from "child_process"
 import { exit } from "process"
-import { promisify } from "util"
 import { writeFile } from "fs/promises"
-const execAsync = promisify(exec)
+import { execAsync } from "../utils/helpers"
 
 function formatString(inputString: string): string {
     let regexedString = inputString.replace(/[\s-]/g, "")

@@ -1,7 +1,13 @@
-import Config from "../models/config.ts"
-const config: Config = await import(
-    `${process.env.XDG_CONFIG_HOME || "~/.config"}/quados/index.ts`
+#!/usr/bin/env -S pnpm tsx
+import Config from "../models/config"
+import { spawnAsync } from "../utils/helpers"
+const config: Config = (await import(`${process.env.PWD}/config.ts`)).default
+
+const result = await spawnAsync(
+    ["flatpak", "install", ...config.installedPackages],
+    {
+        stdio: "inherit",
+    }
 )
-export default {
-    install: () => {},
-}
+
+console.log(result)

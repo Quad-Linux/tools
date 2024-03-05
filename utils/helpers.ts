@@ -30,3 +30,9 @@ export const normalizeString = (inputString: string): string => {
 
     return chars.join("")
 }
+
+export const flatpakSpawn = (...cmd: string[]) =>
+    spawnAsync("flatpak", ...cmd, "--noninteractive")
+
+export const flatpakExec = (...cmd: string[]) =>
+    execAsync("flatpak", ...cmd, "--noninteractive")

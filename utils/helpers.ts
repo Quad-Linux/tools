@@ -1,4 +1,4 @@
-import { SpawnOptions, exec, spawn } from "child_process"
+import { exec, spawn } from "child_process"
 import { promisify } from "util"
 
 export const execAsync = async (...cmd: string[]): Promise<string> => {

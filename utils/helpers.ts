@@ -1,19 +1,19 @@
 import { SpawnOptions, exec, spawn } from "child_process"
 import { promisify } from "util"
 
-export const execAsync = promisify(exec)
-export const spawnAsync = (
-    cmd: string[],
-    options: SpawnOptions
-): Promise<string> =>
+export const execAsync = async (...cmd: string[]): Promise<string> => {
+    const { stdout, stderr } = await promisify(exec)(cmd.join(" "))
+    if (stderr) throw stderr
+    return stdout
+}
+export const spawnAsync = (...cmd: string[]): Promise<void> =>
     new Promise((resolve, reject) => {
-        const cp = spawn(cmd[0], cmd.slice(1), options)
-        const stdout: string[] = []
-        cp?.stdout?.on("data", (data) => stdout.push(data.toString()))
+        const cp = spawn(cmd[0], cmd.slice(1), {
+            stdio: "inherit",
+        })
 
         cp.on("error", reject)
-
-        cp.on("close", () => resolve(stdout.join("")))
+        cp.on("close", resolve)
     })
 
 export const normalizeString = (inputString: string): string => {

@@ -1,18 +1,12 @@
 #!/usr/bin/env -S pnpm tsx
-import { exit } from "process"
 import { writeFile } from "fs/promises"
 import { execAsync, normalizeString } from "../utils/helpers"
 
-const { stdout, stderr } = await execAsync(
+const installed = await execAsync(
     "flatpak remote-ls --columns=name,application"
 )
 
-if (stderr) {
-    console.error(`Error executing command: ${stderr}`)
-    exit(1)
-}
-
-const output = stdout
+const output = installed
     .split("\n")
     .filter((line) => line.length > 0)
     .reduce((result, line) => {

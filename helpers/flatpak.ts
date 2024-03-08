@@ -2,19 +2,9 @@ import Config from "../models/config"
 import { execAsync } from "./cli"
 
 const getInstalled = async () =>
-    (await flatpakExec("list", "--app", "--columns", "application"))
+    (await flatpakExec("list --app --columns application"))
         .split("\n")
         .filter((line) => line.length) ?? []
-
-const mask = async (remove: boolean = false) =>
-    await execAsync(
-        "pkexec",
-        "flatpak",
-        "mask",
-        ...(remove ? ["--remove"] : []),
-        "*",
-        "--system"
-    )
 
 export const install = async (config: Config) => {
     const installedFlatpaks = await getInstalled()
@@ -24,8 +14,7 @@ export const install = async (config: Config) => {
 
     if (pkgsToInstall.length)
         await flatpakExecNoninteractive(
-            "install",
-            ...pkgsToInstall.map((pkg) => pkg.id)
+            `install ${pkgsToInstall.map((pkg) => pkg.id).join(" ")}`
         )
 }
 
@@ -36,43 +25,40 @@ export const uninstall = async (config: Config) => {
     )
 
     if (packagesToUninstall.length)
-        await flatpakExecNoninteractive("uninstall", ...packagesToUninstall)
+        await flatpakExecNoninteractive(
+            `uninstall ${packagesToUninstall.join(" ")}`
+        )
 }
 
 export const upgrade = async (config: Config) => {
     if (config.pkgs.length) {
         try {
-            try {
-                await mask(true)
-            } catch {}
-            for (const pkg of config.pkgs) {
-                const commit = await execAsync(
-                    "flatpak",
-                    "info",
-                    pkg.id,
-                    "--system",
-                    "| grep 'Commit: ' | sed 's/^.*: //'"
-                )
+            const commands = await Promise.all(
+                config.pkgs.map(async (pkg) => {
+                    const commit = (
+                        await execAsync(
+                            `flatpak info ${pkg.id} --system | grep 'Commit: ' | sed 's/^.*: //'`
+                        )
+                    ).replace("\n", "")
 
-                await execAsync(
-                    "pkexec",
-                    "flatpak",
-                    "--system",
-                    "--noninteractive",
-                    "update",
-                    pkg.id,
-                    "--commit",
-                    commit
-                )
-            }
-        } finally {
-            await mask()
+                    return `flatpak update --system --noninteractive ${pkg.id} --commit ${commit}`
+                })
+            )
+
+            const mask = `flatpak mask "*"`
+
+            await execAsync(
+                `pkexec /usr/bin/env bash -c "${mask} --remove; ${commands.join(
+                    " && "
+                )}; ${mask}"`
+            )
+        } catch (error) {
+            console.error(error)
         }
     }
 }
 
-export const flatpakExecNoninteractive = (...cmd: string[]) =>
-    flatpakExec(...cmd, "--noninteractive")
+export const flatpakExecNoninteractive = (cmd: string) =>
+    flatpakExec(`${cmd} --noninteractive`)
 
-export const flatpakExec = (...cmd: string[]) =>
-    execAsync("flatpak", ...cmd, "--system")
+export const flatpakExec = (cmd: string) => execAsync(`flatpak ${cmd} --system`)

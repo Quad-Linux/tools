@@ -1,8 +1,11 @@
-import { exec } from "child_process"
+import { ExecOptions, ExecOptionsWithStringEncoding, exec } from "child_process"
 import { promisify } from "util"
 
-export const execAsync = async (...cmd: string[]): Promise<string> => {
-    const { stdout, stderr } = await promisify(exec)(cmd.join(" "))
+export const execAsync = async (
+    cmd: string,
+    options?: ExecOptions
+): Promise<string> => {
+    const { stdout, stderr } = await promisify(exec)(cmd, options)
     if (stderr) throw stderr
-    return stdout
+    return stdout as string
 }

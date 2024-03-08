@@ -7,7 +7,7 @@
     "type": "module",
     "packageManager": "pnpm@8.14.0",
     "bin": {
-        "updatePackages": "flatpak-manager/generator.ts && echo Success",
+        "updatePackages": "flatpak-manager/generator.ts",
         "rebuildSystem": "flatpak-manager/rebuild.ts"
     },
     "devDependencies": {

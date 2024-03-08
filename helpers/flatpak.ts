@@ -7,7 +7,7 @@ const getInstalled = async () =>
         .filter((line) => line.length)
 
 const mask = async (remove: boolean = false) =>
-    await spawnAsync(
+    await execAsync(
         "pkexec",
         "flatpak",
         "mask",
@@ -38,12 +38,28 @@ export const uninstall = async () => {
 export const upgrade = async () => {
     if (config.pkgs.length) {
         try {
-            mask(true)
-        } catch {}
-        for (const pkg of config.pkgs) {
-            await flatpakSpawn("update", pkg.id, "--commit", pkg.commit)
+            try {
+                await mask(true)
+            } catch {}
+            for (const pkg of config.pkgs) {
+                const commit = await flatpakExec(
+                    "info",
+                    pkg.id,
+                    "| grep 'Commit: ' | sed 's/^.*: //'"
+                )
+
+                await spawnAsync(
+                    "pkexec",
+                    "flatpak",
+                    "update",
+                    pkg.id,
+                    "--commit",
+                    commit
+                )
+            }
+        } finally {
+            await mask()
         }
-        mask()
     }
 }
 

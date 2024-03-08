@@ -4,7 +4,7 @@ import { config } from "./config"
 const getInstalled = async () =>
     (await flatpakExec("list", "--app", "--columns", "application"))
         .split("\n")
-        .filter((line) => line.length)
+        .filter((line) => line.length) ?? []
 
 const mask = async (remove: boolean = false) =>
     await execAsync(
@@ -17,7 +17,7 @@ const mask = async (remove: boolean = false) =>
     )
 
 export const install = async () => {
-    const [installedFlatpaks] = await getInstalled()
+    const installedFlatpaks = await getInstalled()
     const pkgsToInstall = config.pkgs.filter(
         (pkg) => !installedFlatpaks.includes(pkg.id)
     )
@@ -43,9 +43,11 @@ export const upgrade = async () => {
                 await mask(true)
             } catch {}
             for (const pkg of config.pkgs) {
-                const commit = await flatpakExec(
+                const commit = await execAsync(
+                    "flatpak",
                     "info",
                     pkg.id,
+                    "--system",
                     "| grep 'Commit: ' | sed 's/^.*: //'"
                 )
 

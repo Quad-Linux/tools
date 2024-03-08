@@ -2,18 +2,13 @@ import Config from "./models/config"
 import ora from "ora"
 import { install, uninstall, upgrade } from "./helpers/flatpak"
 import chalk from "chalk"
+import spin from "./helpers/spin"
 
 export const createConfig = async (config: Config) => {
-    const spinner = ora("Installing packages...").start()
-    await install(config)
+    await spin("Installing packages...", install(config))
+    await spin("Uninstalling packages...", uninstall(config))
+    await spin("Upgrading packages...", upgrade(config))
 
-    spinner.text = "Uninstalling packages..."
-    await uninstall(config)
-
-    spinner.text = "Upgrading packages..."
-    await upgrade(config)
-
-    spinner.stop()
     console.info(chalk.bold("Done!"))
 }
 

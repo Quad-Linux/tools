@@ -1,20 +1,21 @@
 {
-    "name": "@quados/tools",
+    "name": "quados",
     "version": "1.0.0",
-    "description": "QuadOS tools",
+    "description": "QuadOS repo",
     "author": "Henry-Hiles",
     "license": "GPL-3.0-only",
     "type": "module",
     "packageManager": "pnpm@8.14.0",
-    "bin": {
-        "updatePackages": "flatpak-manager/generator.ts",
-        "rebuildSystem": "flatpak-manager/rebuild.ts"
-    },
+    "bin": "cli.ts",
     "devDependencies": {
+        "@commander-js/extra-typings": "^12.0.1",
         "@types/node": "^20.11.24",
         "tsx": "^4.7.1"
     },
     "dependencies": {
-        "dataclass": "^2.1.1"
+        "chalk": "^5.3.0",
+        "commander": "^12.0.0",
+        "dataclass": "^2.1.1",
+        "ora": "^8.0.1"
     }
 }

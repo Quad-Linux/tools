@@ -1,5 +1,5 @@
-import { execAsync, spawnAsync } from "./cli"
-import { config } from "./config"
+import Config from "../models/config"
+import { execAsync } from "./cli"
 
 const getInstalled = async () =>
     (await flatpakExec("list", "--app", "--columns", "application"))
@@ -16,27 +16,30 @@ const mask = async (remove: boolean = false) =>
         "--system"
     )
 
-export const install = async () => {
+export const install = async (config: Config) => {
     const installedFlatpaks = await getInstalled()
     const pkgsToInstall = config.pkgs.filter(
         (pkg) => !installedFlatpaks.includes(pkg.id)
     )
 
     if (pkgsToInstall.length)
-        await flatpakSpawn("install", ...pkgsToInstall.map((pkg) => pkg.id))
+        await flatpakExecNoninteractive(
+            "install",
+            ...pkgsToInstall.map((pkg) => pkg.id)
+        )
 }
 
-export const uninstall = async () => {
+export const uninstall = async (config: Config) => {
     const installedFlatpaks = await getInstalled()
     const packagesToUninstall = installedFlatpaks.filter(
         (id) => !config.pkgs.find((pkg) => pkg.id == id)
     )
 
     if (packagesToUninstall.length)
-        await flatpakSpawn("uninstall", ...packagesToUninstall)
+        await flatpakExecNoninteractive("uninstall", ...packagesToUninstall)
 }
 
-export const upgrade = async () => {
+export const upgrade = async (config: Config) => {
     if (config.pkgs.length) {
         try {
             try {
@@ -51,10 +54,11 @@ export const upgrade = async () => {
                     "| grep 'Commit: ' | sed 's/^.*: //'"
                 )
 
-                await spawnAsync(
+                await execAsync(
                     "pkexec",
                     "flatpak",
                     "--system",
+                    "--noninteractive",
                     "update",
                     pkg.id,
                     "--commit",
@@ -67,8 +71,8 @@ export const upgrade = async () => {
     }
 }
 
-export const flatpakSpawn = (...cmd: string[]) =>
-    spawnAsync("flatpak", ...cmd, "--noninteractive", "--system")
+export const flatpakExecNoninteractive = (...cmd: string[]) =>
+    flatpakExec(...cmd, "--noninteractive")
 
 export const flatpakExec = (...cmd: string[]) =>
     execAsync("flatpak", ...cmd, "--system")

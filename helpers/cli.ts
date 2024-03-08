@@ -1,4 +1,4 @@
-import { ExecOptions, ExecOptionsWithStringEncoding, exec } from "child_process"
+import { ExecOptions, exec } from "child_process"
 import { promisify } from "util"
 
 export const execAsync = async (

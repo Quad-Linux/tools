@@ -12,7 +12,8 @@ const mask = async (remove: boolean = false) =>
         "flatpak",
         "mask",
         ...(remove ? ["--remove"] : []),
-        "*"
+        "*",
+        "--system"
     )
 
 export const install = async () => {
@@ -51,6 +52,7 @@ export const upgrade = async () => {
                 await spawnAsync(
                     "pkexec",
                     "flatpak",
+                    "--system",
                     "update",
                     pkg.id,
                     "--commit",
@@ -64,6 +66,7 @@ export const upgrade = async () => {
 }
 
 export const flatpakSpawn = (...cmd: string[]) =>
-    spawnAsync("flatpak", ...cmd, "--noninteractive")
+    spawnAsync("flatpak", ...cmd, "--noninteractive", "--system")
 
-export const flatpakExec = (...cmd: string[]) => execAsync("flatpak", ...cmd)
+export const flatpakExec = (...cmd: string[]) =>
+    execAsync("flatpak", ...cmd, "--system")

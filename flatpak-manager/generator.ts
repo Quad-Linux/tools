@@ -4,7 +4,7 @@ import { execAsync } from "../helpers/cli"
 import parseList from "../helpers/parseList"
 
 const installed = await execAsync(
-    "flatpak remote-ls --columns=name,application,commit"
+    "flatpak remote-ls --system --columns=name,application,commit"
 )
 
 const packages = parseList(installed)

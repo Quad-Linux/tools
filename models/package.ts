@@ -5,7 +5,7 @@ export default class Package extends Data {
     commit: string
     origin: string
 
-    setCommit(commit: string): Package {
+    withCommit(commit: string): Package {
         // @ts-ignore
         return this.copy({ commit: commit })
     }

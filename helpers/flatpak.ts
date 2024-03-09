@@ -53,7 +53,7 @@ export const upgrade = async (config: Config) => {
                 )}; ${mask}"`
             )
         } catch (error) {
-            console.error(error)
+            if (!error.includes("No current masked pattern matching *")) throw error
         }
     }
 }

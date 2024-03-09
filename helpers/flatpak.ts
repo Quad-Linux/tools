@@ -38,7 +38,7 @@ export const upgrade = async (config: Config) => {
                 config.pkgs.map(async (pkg) => {
                     const commit = (
                         await execAsync(
-                            `flatpak remote-info --log flathub ${pkg.id} --system | grep 'Commit: ${pkg.commit}' | sed 's/^.*: //'`
+                            `flatpak remote-info --log ${pkg.origin} ${pkg.id} --system | grep 'Commit: ${pkg.commit}' | sed 's/^.*: //'`
                         )
                     ).replace("\n", "")
 
@@ -57,7 +57,8 @@ export const upgrade = async (config: Config) => {
                 )}; ${mask}"`
             )
         } catch (error) {
-            if (!error.includes("No current masked pattern matching *")) throw error
+            if (!error.includes("No current masked pattern matching *"))
+                throw error
         }
     }
 }

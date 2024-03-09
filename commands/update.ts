@@ -10,7 +10,7 @@ export default createCommand("update")
         const installed = await spin(
             "Loading packages...",
             execAsync(
-                "flatpak remote-ls --system --columns=name,application,commit"
+                "flatpak remote-ls --system --columns=name,application,commit,origin"
             )
         )
 

@@ -5,10 +5,14 @@ export default (output: string): { pkg: Package } =>
         .split("\n")
         .filter((line) => line.length > 0)
         .reduce((result, line) => {
-            const [key, value, commit] = line.split("\t")
+            const [key, value, commit, origin] = line.split("\t")
             let normalizedKey = normalizeString(key)
 
-            result[normalizedKey] = Package.create({ id: value, commit })
+            result[normalizedKey] = Package.create({
+                id: value,
+                commit,
+                origin,
+            })
             return result
         }, {} as { pkg: Package })
 

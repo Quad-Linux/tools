@@ -1,5 +1,6 @@
-import Package from "./package"
+import { Data } from "dataclass"
+import { Package } from "./package"
 
-export default interface Config {
+export class Config {
     pkgs: Array<Package>
 }

@@ -1,7 +1,6 @@
 import { writeFile } from "fs/promises"
 import { execAsync } from "../helpers/cli"
 import parseList from "../helpers/parseList"
-import ora from "ora"
 import { createCommand } from "commander"
 import spin from "../helpers/spin"
 

@@ -1,3 +1,4 @@
+import chalk from "chalk"
 import Config from "../models/config"
 import { execAsync } from "./cli"
 
@@ -37,9 +38,12 @@ export const upgrade = async (config: Config) => {
                 config.pkgs.map(async (pkg) => {
                     const commit = (
                         await execAsync(
-                            `flatpak info ${pkg.id} --system | grep 'Commit: ' | sed 's/^.*: //'`
+                            `flatpak remote-info --log flathub ${pkg.id} --system | grep 'Commit: ${pkg.commit}' | sed 's/^.*: //'`
                         )
                     ).replace("\n", "")
+
+                    if (!commit)
+                        throw chalk.red.bold("Invalid commit provided!")
 
                     return `flatpak update --system --noninteractive ${pkg.id} --commit ${commit}`
                 })

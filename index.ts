@@ -1,6 +1,6 @@
 import Config from "./models/config"
-import { install, uninstall, upgrade } from "./helpers/flatpak"
-import spin from "./helpers/spin"
+import { install, uninstall, upgrade } from "@quados/helpers/flatpak"
+import spin from "@quados/helpers/spin"
 
 export const createConfig = async (config: Config) => {
     await spin("Installing packages...", install(config))
@@ -9,3 +9,4 @@ export const createConfig = async (config: Config) => {
 }
 
 export { default as Package } from "./models/package"
+export { default as Config } from "./models/config"

@@ -27,7 +27,7 @@ export default {${Object.keys(packages).map(
                         `${JSON.stringify(
                             key
                         )}: Package.create(${JSON.stringify(packages[key])})`
-                )} ))}`
+                )}}`
             )
         )
     })

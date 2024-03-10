@@ -10,7 +10,7 @@ dependencies:
     version: github.com/Quad-Linux/helpers/d27547dec90b8bc7ae24573377e7f9c7ba24fdb5
   '@types/node':
     specifier: ^20.11.24
-    version: 20.11.24
+    version: 20.11.25
   dataclass:
     specifier: ^2.1.1
     version: 2.1.1
@@ -229,8 +229,8 @@ packages:
     dev: true
     optional: true
 
-  /@types/node@20.11.24:
-    resolution: {integrity: sha512-Kza43ewS3xoLgCEpQrsT+xRo/EJej1y0kVYGiLFE1NEODXGzTfwiC6tXTLMQskn1X4/Rjlh0MQUvx9W+L9long==}
+  /@types/node@20.11.25:
+    resolution: {integrity: sha512-TBHyJxk2b7HceLVGFcpAUjsa5zIdsPWlR6XHfyGzd0SFu+/NFgQgMAl96MSDZgQDvJAvV6BKsFOrt6zIL09JDw==}
     dependencies:
       undici-types: 5.26.5
     dev: false
@@ -309,8 +309,8 @@ packages:
     engines: {node: '>=18'}
     dev: false
 
-  /get-tsconfig@4.7.2:
-    resolution: {integrity: sha512-wuMsz4leaj5hbGgg4IvDU0bqJagpftG5l5cXIAvo8uZrqn0NJqwtfupTN00VnkQJPcIRrxYrm1Ue24btpCha2A==}
+  /get-tsconfig@4.7.3:
+    resolution: {integrity: sha512-ZvkrzoUA0PQZM6fy6+/Hce561s+faD1rsNwhnO5FelNjyy7EMGJ3Rz1AQ8GYDWjhRs/7dBLOEJvhK8MiEJOAFg==}
     dependencies:
       resolve-pkg-maps: 1.0.0
     dev: true
@@ -408,7 +408,7 @@ packages:
     hasBin: true
     dependencies:
       esbuild: 0.19.12
-      get-tsconfig: 4.7.2
+      get-tsconfig: 4.7.3
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
@@ -422,18 +422,18 @@ packages:
     name: '@quados/helpers'
     version: 1.0.0
     dependencies:
-      '@types/node': 20.11.24
+      '@types/node': 20.11.25
       chalk: 5.3.0
       ora: 8.0.1
-      quados: github.com/Quad-Linux/tools/5fc9c1b647a186a33ad377180dec3e5a7281b312
+      quados: github.com/Quad-Linux/tools/b65f7b5642f74dc21e7824a7918b315d2271834f
     dev: false
 
-  github.com/Quad-Linux/tools/5fc9c1b647a186a33ad377180dec3e5a7281b312:
-    resolution: {tarball: https://codeload.github.com/Quad-Linux/tools/tar.gz/5fc9c1b647a186a33ad377180dec3e5a7281b312}
+  github.com/Quad-Linux/tools/b65f7b5642f74dc21e7824a7918b315d2271834f:
+    resolution: {tarball: https://codeload.github.com/Quad-Linux/tools/tar.gz/b65f7b5642f74dc21e7824a7918b315d2271834f}
     name: quados
     version: 1.0.0
     dependencies:
-      '@quados/helpers': link:../helpers
-      '@types/node': 20.11.24
+      '@quados/helpers': github.com/Quad-Linux/helpers/d27547dec90b8bc7ae24573377e7f9c7ba24fdb5
+      '@types/node': 20.11.25
       dataclass: 2.1.1
     dev: false

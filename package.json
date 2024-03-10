@@ -7,7 +7,8 @@
     "type": "module",
     "packageManager": "pnpm@8.14.0",
     "devDependencies": {
-        "tsx": "^4.7.1"
+        "tsx": "^4.7.1",
+        "@quados/helpers": "link:/home/quadradical/Documents/Code/quados/helpers/"
     },
     "dependencies": {
         "@quados/helpers": "github:Quad-Linux/helpers",

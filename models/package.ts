@@ -2,6 +2,7 @@ import { Data } from "dataclass"
 
 export class Package extends Data {
     id: string
+    name: string
     commit: string
     origin: string
 

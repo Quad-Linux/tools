@@ -10,7 +10,7 @@
         "tsx": "^4.7.1"
     },
     "dependencies": {
-        "@quados/helpers": "link:../helpers",
+        "@quados/helpers": "github:Quad-Linux/helpers",
         "@types/node": "^20.11.24",
         "dataclass": "^2.1.1"
     }

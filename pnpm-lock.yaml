@@ -8,9 +8,15 @@ dependencies:
   '@quados/helpers':
     specifier: github:Quad-Linux/helpers
     version: github.com/Quad-Linux/helpers/dbb63fc3e93374ad00c386b0bb06a58536c2a83b
+  '@quados/models':
+    specifier: github:Quad-Linux/models
+    version: github.com/Quad-Linux/models/79904e0ae7441f02207a3443c8358308dc700287
   '@types/node':
     specifier: ^20.11.24
     version: 20.11.25
+  chalk:
+    specifier: ^5.3.0
+    version: 5.3.0
   dataclass:
     specifier: ^2.1.1
     version: 2.1.1
@@ -153,15 +159,34 @@ packages:
       '@types/node': 20.11.25
       chalk: 5.3.0
       ora: 8.0.1
-      quados: github.com/Quad-Linux/tools/4a8e43849644a2d5ebfa7a28412942e14e2f6503
+      quados: github.com/Quad-Linux/tools/ca6f13e48862cc6205984064cdeb2bcb81fd1c0f
     dev: false
 
-  github.com/Quad-Linux/tools/4a8e43849644a2d5ebfa7a28412942e14e2f6503:
-    resolution: {tarball: https://codeload.github.com/Quad-Linux/tools/tar.gz/4a8e43849644a2d5ebfa7a28412942e14e2f6503}
+  github.com/Quad-Linux/helpers/fa1ade10db7c586ca1cbdb409a403cb03774b169:
+    resolution: {tarball: https://codeload.github.com/Quad-Linux/helpers/tar.gz/fa1ade10db7c586ca1cbdb409a403cb03774b169}
+    name: '@quados/helpers'
+    version: 1.0.0
+    dependencies:
+      '@types/node': 20.11.25
+      chalk: 5.3.0
+      ora: 8.0.1
+      quados: github.com/Quad-Linux/tools/ca6f13e48862cc6205984064cdeb2bcb81fd1c0f
+    dev: false
+
+  github.com/Quad-Linux/models/79904e0ae7441f02207a3443c8358308dc700287:
+    resolution: {tarball: https://codeload.github.com/Quad-Linux/models/tar.gz/79904e0ae7441f02207a3443c8358308dc700287}
+    name: '@quados/models'
+    version: 1.0.0
+    dependencies:
+      dataclass: 2.1.1
+    dev: false
+
+  github.com/Quad-Linux/tools/ca6f13e48862cc6205984064cdeb2bcb81fd1c0f:
+    resolution: {tarball: https://codeload.github.com/Quad-Linux/tools/tar.gz/ca6f13e48862cc6205984064cdeb2bcb81fd1c0f}
     name: quados
     version: 1.0.0
     dependencies:
-      '@quados/helpers': github.com/Quad-Linux/helpers/dbb63fc3e93374ad00c386b0bb06a58536c2a83b
+      '@quados/helpers': github.com/Quad-Linux/helpers/fa1ade10db7c586ca1cbdb409a403cb03774b169
       '@types/node': 20.11.25
       dataclass: 2.1.1
     dev: false

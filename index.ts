@@ -1,5 +1,5 @@
-import { Config } from "./models/config"
-import { install, uninstall, upgrade } from "@quados/helpers/flatpak"
+import { Config } from "@quados/models"
+import { install, uninstall, upgrade } from "./flatpak"
 import spin from "@quados/helpers/spin"
 
 export const createConfig = async (config: Config) => {
@@ -7,6 +7,3 @@ export const createConfig = async (config: Config) => {
     await spin("Uninstalling packages...", uninstall(config))
     await spin("Upgrading packages...", upgrade(config))
 }
-
-export { Package } from "./models/package"
-export { Config } from "./models/config"

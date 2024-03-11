@@ -1,6 +1,10 @@
 import chalk from "chalk"
 import { Config } from "@quados/models"
-import { execAsync } from "@quados/helpers/cli"
+import {
+    execAsync,
+    flatpakExec,
+    flatpakExecNoninteractive,
+} from "@quados/helpers/cli"
 import { homedir } from "os"
 import { writeFile } from "fs/promises"
 import { unlink } from "fs/promises"
@@ -96,8 +100,3 @@ export const upgrade = async (config: Config) => {
         }
     }
 }
-
-export const flatpakExecNoninteractive = (cmd: string) =>
-    flatpakExec(`${cmd} --noninteractive`)
-
-export const flatpakExec = (cmd: string) => execAsync(`flatpak ${cmd} --system`)

@@ -9,7 +9,7 @@
     "dependencies": {
         "@quados/helpers": "github:Quad-Linux/helpers",
         "@quados/models": "github:Quad-Linux/models",
-        "@types/node": "^20.11.24",
+        "@types/node": "^20.11.25",
         "chalk": "^5.3.0",
         "dataclass": "^2.1.1"
     }

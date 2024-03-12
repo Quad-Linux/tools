@@ -1,15 +1,15 @@
 import chalk from "chalk"
 import { Config } from "@quados/models"
+import { homedir } from "os"
+import { writeFile, symlink, unlink } from "fs/promises"
+import { join } from "path"
 import {
-    execAsync,
     flatpakExec,
     flatpakExecNoninteractive,
-} from "@quados/helpers/cli"
-import { homedir } from "os"
-import { writeFile, symlink } from "fs/promises"
-import { unlink } from "fs/promises"
-import parseList from "@quados/helpers/parseList"
-import { join } from "path"
+    execAsync,
+    parseList,
+    flatpakAddPermission,
+} from "@quados/helpers"
 
 const getInstalled = async () =>
     (await flatpakExec("list --app --columns application"))
@@ -42,18 +42,24 @@ export const configure = async (config: Config) => {
         await execAsync(`mkdir -p ${configFolder}`)
 
         for (const configSymlink in pkg.config.symlinks) {
+            const sym = pkg.config.symlinks[configSymlink]
             try {
-                await symlink(
-                    pkg.config.symlinks[configSymlink].source,
-                    join(configFolder, configSymlink)
-                )
+                await symlink(sym.source, join(configFolder, configSymlink))
             } catch {}
+            await flatpakAddPermission(
+                pkg.id,
+                configSymlink,
+                sym.readonly ?? false
+            )
         }
 
         for (const configFile in pkg.config.files) {
-            await writeFile(
-                join(configFolder, configFile),
-                pkg.config.files[configFile].source
+            const file = pkg.config.files[configFile]
+            await writeFile(join(configFolder, configFile), file.source)
+            await flatpakAddPermission(
+                pkg.id,
+                configFile,
+                file.readonly ?? false
             )
         }
     }
@@ -93,28 +99,24 @@ export const uninstall = async (config: Config) => {
 export const upgrade = async (config: Config) => {
     if (config.pkgs.length) {
         try {
-            const commands = await Promise.all(
-                config.pkgs.map(async (pkg) => {
-                    const commit = (
-                        await execAsync(
-                            `flatpak remote-info --log ${pkg.origin} ${pkg.id} --system | grep 'Commit: ${pkg.commit}' | sed 's/^.*: //'`
-                        )
-                    ).replace("\n", "")
+            const mask = `pkexec flatpak mask "*"`
+            await execAsync(`${mask} --remove`)
 
-                    if (!commit)
-                        throw chalk.red.bold("Invalid commit provided!")
+            for (const pkg of config.pkgs) {
+                const commit = (
+                    await execAsync(
+                        `flatpak remote-info --log ${pkg.origin} ${pkg.id} --system | grep 'Commit: ${pkg.commit}' | sed 's/^.*: //'`
+                    )
+                ).replace("\n", "")
 
-                    return `flatpak update --system --noninteractive ${pkg.id} --commit ${commit}`
-                })
-            )
+                if (!commit) throw chalk.red.bold("Invalid commit provided!")
 
-            const mask = `flatpak mask "*"`
+                await execAsync(
+                    `pkexec flatpak update ${pkg.id} --commit ${commit} --noninteractive --system`
+                )
+            }
 
-            await execAsync(
-                `pkexec /usr/bin/env bash -c "${mask} --remove; ${commands.join(
-                    " && "
-                )}; ${mask}"`
-            )
+            await execAsync(mask)
         } catch (error) {
             if (!error.includes("No current masked pattern matching *"))
                 throw error

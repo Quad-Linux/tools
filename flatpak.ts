@@ -6,7 +6,7 @@ import {
     flatpakExecNoninteractive,
 } from "@quados/helpers/cli"
 import { homedir } from "os"
-import { writeFile } from "fs/promises"
+import { writeFile, symlink } from "fs/promises"
 import { unlink } from "fs/promises"
 import parseList from "@quados/helpers/parseList"
 import { join } from "path"
@@ -22,17 +22,38 @@ export const install = async (config: Config) => {
         (pkg) => !installedFlatpaks.includes(pkg.id)
     )
 
-    if (pkgsToInstall.length) {
+    if (pkgsToInstall.length)
         await flatpakExecNoninteractive(
             `install ${pkgsToInstall.map((pkg) => pkg.id).join(" ")}`
         )
+}
 
-        for (const pkg of pkgsToInstall) {
-            const toWrite = `#!/usr/bin/env bash\nexec flatpak run ${pkg.id} "$@"`
+export const configure = async (config: Config) => {
+    for (const pkg of config.pkgs) {
+        const localBin = join(homedir(), ".local", "bin")
+        await execAsync(`mkdir -p ${localBin}`)
+        await writeFile(
+            join(localBin, pkg.name),
+            `#!/usr/bin/env bash\nexec flatpak run ${pkg.id} "$@"`,
+            { mode: 0o755 }
+        )
+
+        const configFolder = join(homedir(), ".var", "app", pkg.id, "config")
+        await execAsync(`mkdir -p ${configFolder}`)
+
+        for (const configSymlink in pkg.config.symlinks) {
+            try {
+                await symlink(
+                    pkg.config.symlinks[configSymlink].source,
+                    join(configFolder, configSymlink)
+                )
+            } catch {}
+        }
+
+        for (const configFile in pkg.config.files) {
             await writeFile(
-                join(homedir(), ".local", "bin", pkg.name),
-                toWrite,
-                { mode: 0o755 }
+                join(configFolder, configFile),
+                pkg.config.files[configFile].source
             )
         }
     }

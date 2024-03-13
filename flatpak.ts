@@ -34,7 +34,8 @@ export const configure = async (config: Config) => {
         await execAsync(`mkdir -p ${localBin}`)
         await writeFile(
             join(localBin, pkg.name),
-            `#!/usr/bin/env bash\nexec flatpak run ${pkg.id} "$@"`,
+            `#!/usr/bin/env bash
+exec flatpak run ${pkg.id} "$@"`,
             { mode: 0o755 }
         )
 

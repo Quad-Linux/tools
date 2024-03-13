@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@quados/helpers':
     specifier: github:Quad-Linux/helpers
-    version: github.com/Quad-Linux/helpers/dd72bf879cd393e05b4389d648d044990e519b9b
+    version: github.com/Quad-Linux/helpers/307837f7eaafb7b3532c06e58aef9c58d8a4d769
   '@quados/models':
     specifier: github:Quad-Linux/models
     version: github.com/Quad-Linux/models/21e57656402b3a65324b756790af12f0c529013c
@@ -151,8 +151,8 @@ packages:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: false
 
-  github.com/Quad-Linux/helpers/dd72bf879cd393e05b4389d648d044990e519b9b:
-    resolution: {tarball: https://codeload.github.com/Quad-Linux/helpers/tar.gz/dd72bf879cd393e05b4389d648d044990e519b9b}
+  github.com/Quad-Linux/helpers/307837f7eaafb7b3532c06e58aef9c58d8a4d769:
+    resolution: {tarball: https://codeload.github.com/Quad-Linux/helpers/tar.gz/307837f7eaafb7b3532c06e58aef9c58d8a4d769}
     name: '@quados/helpers'
     version: 1.0.0
     dependencies:

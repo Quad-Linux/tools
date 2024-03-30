@@ -1,14 +1,9 @@
 import chalk from "chalk"
 import { Config } from "@quados/models"
-import { homedir } from "os"
-import { writeFile, symlink, unlink } from "fs/promises"
-import { join } from "path"
 import {
     flatpakExec,
     flatpakExecNoninteractive,
     execAsync,
-    parseList,
-    flatpakAddPermission,
 } from "@quados/helpers"
 
 const getInstalled = async () =>

@@ -53,40 +53,40 @@ export const install = async (config: Config) => {
     }
 }
 
-export const configure = async (config: Config) => {
-    for (const pkg of config.pkgs) {
-        const localBin = join(homedir(), ".local", "bin")
-        await execAsync(`mkdir -p ${localBin}`)
-        await writeFile(
-            join(localBin, pkg.name),
-            `#!/usr/bin/env bash
-exec flatpak run ${pkg.id} "$@"`,
-            { mode: 0o755 }
-        )
+// export const configure = async (config: Config) => {
+//     for (const pkg of config.pkgs) {
+//         const localBin = join(homedir(), ".local", "bin")
+//         await execAsync(`mkdir -p ${localBin}`)
+//         await writeFile(
+//             join(localBin, pkg.name),
+//             `#!/usr/bin/env bash
+// exec flatpak run ${pkg.id} "$@"`,
+//             { mode: 0o755 }
+//         )
 
-        const configFolder = join(homedir(), ".var", "app", pkg.id, "config")
-        await execAsync(`mkdir -p ${configFolder}`)
+//         const configFolder = join(homedir(), ".var", "app", pkg.id, "config")
+//         await execAsync(`mkdir -p ${configFolder}`)
 
-        for (const configSymlink in pkg.config.symlinks) {
-            const sym = pkg.config.symlinks[configSymlink]
-            try {
-                await symlink(sym.source, join(configFolder, configSymlink))
-            } catch {}
-            await flatpakAddPermission(
-                pkg.id,
-                configSymlink,
-                sym.readonly ?? false
-            )
-        }
+//         for (const configSymlink in pkg.config.symlinks) {
+//             const sym = pkg.config.symlinks[configSymlink]
+//             try {
+//                 await symlink(sym.source, join(configFolder, configSymlink))
+//             } catch {}
+//             await flatpakAddPermission(
+//                 pkg.id,
+//                 configSymlink,
+//                 sym.readonly ?? false
+//             )
+//         }
 
-        for (const configFile in pkg.config.files) {
-            const file = pkg.config.files[configFile]
-            await writeFile(join(configFolder, configFile), file.source)
-            await flatpakAddPermission(
-                pkg.id,
-                configFile,
-                file.readonly ?? false
-            )
-        }
-    }
-}
+//         for (const configFile in pkg.config.files) {
+//             const file = pkg.config.files[configFile]
+//             await writeFile(join(configFolder, configFile), file.source)
+//             await flatpakAddPermission(
+//                 pkg.id,
+//                 configFile,
+//                 file.readonly ?? false
+//             )
+//         }
+//     }
+// }
